@@ -25,6 +25,12 @@ For a minimal setup with just the essentials:
 sudo apt update && sudo apt install -y build-essential cmake gcc g++ gdb clang git python3 python3-pip python3-dev python3-venv nodejs npm default-jdk golang-go rustc ruby php curl wget jq docker.io postgresql mysql-server redis-server sqlite3 nginx htop tmux vim neovim code && pip3 install --user jupyter pandas numpy matplotlib seaborn scikit-learn tensorflow torch flask django fastapi requests beautifulsoup4 selenium black pytest
 ```
 
+### Option 4: Verify Installation
+After running the setup, verify everything is working correctly:
+```bash
+curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/verify-setup.sh | bash
+```
+
 ## 📦 What's Included
 
 ### 🐍 Python Ecosystem (200+ packages)
@@ -109,6 +115,7 @@ sudo apt update && sudo apt install -y build-essential cmake gcc g++ gdb clang g
 - ✅ **Cross-Platform**: Works on Ubuntu 20.04, 22.04, and newer
 - ✅ **Safe**: Uses official repositories and trusted sources
 - ✅ **Configurable**: Easy to modify for specific needs
+- ✅ **Verified**: Includes verification script to check installation and fix issues
 
 ## 📋 Prerequisites
 
@@ -141,6 +148,24 @@ The script is modular and easy to customize. You can:
 - Change default configurations
 
 ## 🔧 Troubleshooting
+
+### Verification Script
+Run the verification script to check your installation and fix common issues:
+```bash
+./verify-setup.sh
+# or download and run directly:
+curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/verify-setup.sh | bash
+```
+
+The verification script will:
+- ✅ Check for broken packages and fix them
+- ✅ Remove duplicate repository sources
+- ✅ Verify essential development tools are installed
+- ✅ Check Python and Node.js environments
+- ✅ Verify database services are running
+- ✅ Check system configuration (Git, SSH, shell)
+- ✅ Run system health checks
+- ✅ Provide recommendations for improvements
 
 ### Common Issues
 
