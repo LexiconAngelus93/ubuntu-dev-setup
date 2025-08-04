@@ -31,6 +31,12 @@ After running the setup, verify everything is working correctly:
 curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/verify-setup.sh | bash
 ```
 
+### Option 5: Complete Configuration
+For advanced configuration and user-specific setup (SSH keys, Git config, shell optimization):
+```bash
+curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/post-setup-config.sh | bash
+```
+
 ## 📦 What's Included
 
 ### 🐍 Python Ecosystem (200+ packages)
@@ -116,6 +122,7 @@ curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/m
 - ✅ **Safe**: Uses official repositories and trusted sources
 - ✅ **Configurable**: Easy to modify for specific needs
 - ✅ **Verified**: Includes verification script to check installation and fix issues
+- ✅ **Fully Configured**: Post-setup script for SSH keys, Git config, and shell optimization
 
 ## 📋 Prerequisites
 
@@ -303,6 +310,104 @@ If the verification script encounters issues:
    sudo reboot
    # Then run verification script again
    ```
+
+### Post-Setup Configuration Script
+
+The post-setup configuration script (`post-setup-config.sh`) handles advanced configuration and user-specific setup tasks that require interaction. Run this after the main setup and verification scripts.
+
+#### 🚀 How to Run
+
+**Option 1: Direct Download and Run (Recommended)**
+```bash
+curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/post-setup-config.sh | bash
+```
+
+**Option 2: Clone Repository and Run Locally**
+```bash
+git clone https://github.com/LexiconAngelus93/ubuntu-dev-setup.git
+cd ubuntu-dev-setup
+chmod +x post-setup-config.sh
+./post-setup-config.sh
+```
+
+#### 🔧 What the Post-Setup Script Configures
+
+**1. Git Configuration Setup**
+- Configures user name and email (interactive)
+- Sets up useful Git aliases and settings
+- Configures default editor and merge tools
+- Sets up modern Git defaults (main branch, etc.)
+
+**2. SSH Key Management**
+- Creates SSH directory if needed
+- Generates SSH keys (Ed25519 or RSA)
+- Configures SSH agent and adds keys
+- Creates SSH config file with common settings
+- Displays public key for adding to Git hosting services
+
+**3. Shell Optimization**
+- Offers to switch to Zsh as default shell
+- Installs and configures Oh My Zsh
+- Sets up useful themes and plugins
+- Installs zsh-autosuggestions and zsh-syntax-highlighting
+- Configures shell aliases for development
+
+**4. Python Environment Enhancement**
+- Configures pip with optimized settings
+- Creates Python development directory structure
+- Installs essential Python development packages
+- Sets up virtual environment tools
+
+**5. Node.js Environment Optimization**
+- Configures npm for global packages without sudo
+- Creates Node.js development directories
+- Installs essential global packages (TypeScript, ESLint, etc.)
+- Updates PATH for npm global packages
+
+**6. Database Configuration**
+- Adds user to docker group for container access
+- Installs Docker Compose if missing
+- Configures PostgreSQL with user database
+- Runs MySQL secure installation
+
+**7. Development Tools Setup**
+- Installs recommended VS Code extensions
+- Creates comprehensive development workspace structure
+- Configures Git LFS for large file handling
+- Sets up useful development aliases
+
+**8. System Optimizations**
+- Increases file watch limits for development tools
+- Optimizes system settings for development
+- Creates development environment documentation
+
+#### 🎯 Interactive Features
+
+The script provides interactive prompts for:
+- ✅ **User Preferences**: Choose what to configure
+- ✅ **Personal Information**: Git name, email, SSH key details
+- ✅ **Tool Selection**: Which tools and extensions to install
+- ✅ **Directory Structure**: Custom development workspace
+- ✅ **Shell Customization**: Theme and plugin preferences
+
+#### 📊 Expected Outcomes
+
+After running the post-setup script:
+- ✅ **Personalized Git Configuration**: Ready for commits and pushes
+- ✅ **SSH Keys Generated**: Ready for GitHub/GitLab authentication
+- ✅ **Optimized Shell**: Enhanced terminal experience with Zsh + Oh My Zsh
+- ✅ **Development Workspace**: Organized directory structure
+- ✅ **Enhanced Tools**: VS Code with extensions, optimized npm/pip
+- ✅ **Database Access**: Configured databases with proper permissions
+- ✅ **System Optimization**: Tuned for development workloads
+
+#### 🔄 Recommended Workflow
+
+1. **Initial Setup**: Run `setup.sh` to install all packages
+2. **Verification**: Run `verify-setup.sh` to check installation
+3. **Configuration**: Run `post-setup-config.sh` for personalization
+4. **Restart**: Logout/login or reboot for all changes to take effect
+5. **Test**: Verify SSH keys and start developing!
 
 ### Common Issues
 
