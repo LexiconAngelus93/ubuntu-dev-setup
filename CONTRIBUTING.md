@@ -8,7 +8,7 @@ Thank you for your interest in contributing to this project! We welcome contribu
 
 If you encounter any problems or have suggestions for improvements:
 
-1. Check if the issue already exists in the [Issues](https://github.com/YOUR_USERNAME/ubuntu-dev-setup/issues) section
+1. Check if the issue already exists in the [Issues](https://github.com/LexiconAngelus93/ubuntu-dev-setup/issues) section
 2. If not, create a new issue with:
    - Clear description of the problem
    - Steps to reproduce (if applicable)

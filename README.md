@@ -8,12 +8,12 @@ This repository contains a comprehensive script to set up a complete development
 
 ### Option 1: Direct Download and Run
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/ubuntu-dev-setup/main/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/setup.sh | bash
 ```
 
 ### Option 2: Clone and Run
 ```bash
-git clone https://github.com/YOUR_USERNAME/ubuntu-dev-setup.git
+git clone https://github.com/LexiconAngelus93/ubuntu-dev-setup.git
 cd ubuntu-dev-setup
 chmod +x setup.sh
 ./setup.sh
