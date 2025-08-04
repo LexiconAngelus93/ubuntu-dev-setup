@@ -150,22 +150,159 @@ The script is modular and easy to customize. You can:
 ## 🔧 Troubleshooting
 
 ### Verification Script
-Run the verification script to check your installation and fix common issues:
+
+The verification script (`verify-setup.sh`) is a comprehensive tool that checks your Ubuntu development environment installation and automatically fixes common issues. It's recommended to run this script after the initial setup or periodically to maintain your development environment.
+
+#### 🚀 How to Run
+
+**Option 1: Direct Download and Run (Recommended)**
 ```bash
-./verify-setup.sh
-# or download and run directly:
 curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/verify-setup.sh | bash
 ```
 
-The verification script will:
-- ✅ Check for broken packages and fix them
-- ✅ Remove duplicate repository sources
-- ✅ Verify essential development tools are installed
-- ✅ Check Python and Node.js environments
-- ✅ Verify database services are running
-- ✅ Check system configuration (Git, SSH, shell)
-- ✅ Run system health checks
-- ✅ Provide recommendations for improvements
+**Option 2: Clone Repository and Run Locally**
+```bash
+git clone https://github.com/LexiconAngelus93/ubuntu-dev-setup.git
+cd ubuntu-dev-setup
+chmod +x verify-setup.sh
+./verify-setup.sh
+```
+
+**Option 3: Download Script Only**
+```bash
+wget https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/verify-setup.sh
+chmod +x verify-setup.sh
+./verify-setup.sh
+```
+
+#### 🔍 What the Verification Script Does
+
+**1. Package Management Cleanup**
+- Updates package lists and repositories
+- Fixes broken or partially installed packages
+- Configures any unconfigured packages
+- Cleans package cache and removes unnecessary packages
+- Removes orphaned packages
+
+**2. Duplicate Source Detection & Removal**
+- Scans `/etc/apt/sources.list` for duplicate entries
+- Checks all repository files in `/etc/apt/sources.list.d/`
+- Automatically removes duplicates while creating backups
+- Prevents repository conflicts and update issues
+
+**3. Essential Development Tools Verification**
+- Checks for: gcc, g++, make, cmake, git, curl, wget, vim
+- Verifies Python 3, pip3, Node.js, npm installations
+- Automatically installs missing essential development tools
+- Validates tool versions and functionality
+
+**4. Python Environment Comprehensive Check**
+- Validates Python 3 installation and version
+- Ensures `python` command points to `python3`
+- Upgrades pip to the latest version
+- Checks essential Python packages: numpy, pandas, matplotlib, requests, flask, django
+- Installs missing Python packages automatically
+- Verifies virtual environment capabilities
+
+**5. Node.js Environment Validation**
+- Verifies Node.js and npm installations and versions
+- Checks global npm packages: TypeScript, ESLint, Prettier
+- Fixes npm permission issues and configuration
+- Configures proper npm prefix to avoid sudo requirements
+- Updates PATH for global npm packages
+
+**6. Database Services Health Check**
+- Verifies Docker installation and user permissions
+- Checks PostgreSQL, MySQL, Redis installations
+- Starts and enables database services automatically
+- Adds user to docker group for container access
+- Validates service configurations
+
+**7. System Configuration Validation**
+- Checks Git global configuration (user.name, user.email)
+- Verifies SSH directory and key setup
+- Validates shell configuration (bash, zsh, Oh My Zsh)
+- Provides personalized configuration recommendations
+
+**8. System Health Monitoring**
+- Monitors disk usage and memory consumption
+- Detects and reports broken symlinks
+- Checks for package manager locks
+- Validates system performance metrics
+- Provides optimization suggestions
+
+#### 📊 Script Output Features
+
+- **🎨 Colored Output**: Easy-to-read status indicators
+  - ✅ Green: Success/OK
+  - ⚠️ Yellow: Warnings
+  - ❌ Red: Errors found
+  - 🔧 Blue: Fixes applied
+  - ℹ️ Blue: Information
+
+- **📝 Detailed Logging**: Complete log saved to `/tmp/ubuntu-dev-setup-verification.log`
+- **📈 Progress Tracking**: Real-time counters for issues found/fixed/warnings
+- **📋 Summary Report**: Comprehensive final status report
+- **💡 Actionable Recommendations**: Specific next steps and improvements
+
+#### 🕐 When to Run the Verification Script
+
+**Recommended Times:**
+- ✅ **After initial setup**: Verify everything installed correctly
+- ✅ **Weekly maintenance**: Keep your environment optimized
+- ✅ **Before important projects**: Ensure everything is working
+- ✅ **After system updates**: Check for any broken dependencies
+- ✅ **When experiencing issues**: Diagnose and fix problems automatically
+- ✅ **After installing new software**: Verify no conflicts occurred
+
+#### 🛡️ Safety Features
+
+- **🔒 Safe Operations**: All fixes include automatic backups
+- **👀 Non-Destructive**: Only fixes known safe issues
+- **📋 Detailed Logging**: Complete audit trail of all actions
+- **🚫 No Data Loss**: Preserves user configurations and data
+- **⚡ Reversible Changes**: Backup files allow manual rollback if needed
+
+#### 📈 Expected Results
+
+After running the verification script, you should see:
+- ✅ All essential development tools installed and working
+- ✅ Clean package management with no duplicates or conflicts
+- ✅ Properly configured Python and Node.js environments
+- ✅ Running database services (if installed)
+- ✅ Optimized system performance
+- ✅ Clear recommendations for any remaining manual steps
+
+#### 🔧 Troubleshooting the Verification Script
+
+If the verification script encounters issues:
+
+1. **Run with verbose output**:
+   ```bash
+   bash -x verify-setup.sh
+   ```
+
+2. **Check the detailed log**:
+   ```bash
+   cat /tmp/ubuntu-dev-setup-verification.log
+   ```
+
+3. **Run specific sections manually** if needed:
+   ```bash
+   # Fix package issues
+   sudo apt update && sudo apt --fix-broken install -y
+   
+   # Clean duplicates manually
+   sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+   sort /etc/apt/sources.list | uniq | sudo tee /etc/apt/sources.list.tmp
+   sudo mv /etc/apt/sources.list.tmp /etc/apt/sources.list
+   ```
+
+4. **Reboot and retry** if services fail to start:
+   ```bash
+   sudo reboot
+   # Then run verification script again
+   ```
 
 ### Common Issues
 
