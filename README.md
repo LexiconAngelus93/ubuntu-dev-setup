@@ -33,6 +33,15 @@ curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/m
 
 ### Option 5: Complete Configuration
 For advanced configuration and user-specific setup (SSH keys, Git config, shell optimization):
+
+**Interactive Mode (Recommended):**
+```bash
+wget https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/post-setup-config.sh
+chmod +x post-setup-config.sh
+./post-setup-config.sh
+```
+
+**Automatic Mode (with defaults):**
 ```bash
 curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/post-setup-config.sh | bash
 ```
@@ -321,6 +330,7 @@ The post-setup configuration script (`post-setup-config.sh`) handles advanced co
 ```bash
 curl -fsSL https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/post-setup-config.sh | bash
 ```
+*Note: This runs in automatic mode with sensible defaults. For full customization, use Option 2.*
 
 **Option 2: Clone Repository and Run Locally**
 ```bash
@@ -329,6 +339,7 @@ cd ubuntu-dev-setup
 chmod +x post-setup-config.sh
 ./post-setup-config.sh
 ```
+*Note: This runs in interactive mode, allowing full customization of all settings.*
 
 #### 🔧 What the Post-Setup Script Configures
 
@@ -383,12 +394,21 @@ chmod +x post-setup-config.sh
 
 #### 🎯 Interactive Features
 
-The script provides interactive prompts for:
-- ✅ **User Preferences**: Choose what to configure
-- ✅ **Personal Information**: Git name, email, SSH key details
-- ✅ **Tool Selection**: Which tools and extensions to install
-- ✅ **Directory Structure**: Custom development workspace
-- ✅ **Shell Customization**: Theme and plugin preferences
+**🔧 Interactive Mode (Local Execution):**
+- ✅ **Full User Control**: Choose what to configure step by step
+- ✅ **Custom Inputs**: Enter your personal information (Git name, email, SSH details)
+- ✅ **Tool Selection**: Choose which tools and extensions to install
+- ✅ **Directory Customization**: Custom development workspace setup
+- ✅ **Shell Preferences**: Select themes, plugins, and shell type
+
+**🤖 Automatic Mode (Piped from curl):**
+- ✅ **Quick Setup**: Runs with sensible defaults automatically
+- ✅ **No Input Required**: Perfect for automated deployments
+- ✅ **Safe Defaults**: Uses common developer preferences
+- ✅ **Time Efficient**: Completes setup without user interaction
+- ✅ **Fallback Option**: Provides instructions for interactive mode
+
+The script automatically detects how it's being run and adapts accordingly.
 
 #### 📊 Expected Outcomes
 

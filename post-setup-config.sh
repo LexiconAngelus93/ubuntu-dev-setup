@@ -7,6 +7,22 @@
 echo "🔧 Starting Ubuntu Development Environment Post-Setup Configuration..."
 echo "====================================================================="
 
+# Check if running in a pipe (non-interactive mode)
+if [ ! -t 0 ]; then
+    echo "⚠️  NOTICE: Script detected non-interactive mode (piped from curl)"
+    echo "📥 For full interactive experience, please download and run locally:"
+    echo "   wget https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/post-setup-config.sh"
+    echo "   chmod +x post-setup-config.sh"
+    echo "   ./post-setup-config.sh"
+    echo ""
+    echo "🤖 Running in automatic mode with sensible defaults..."
+    echo "⏱️  Waiting 5 seconds before starting (Ctrl+C to cancel)..."
+    sleep 5
+    INTERACTIVE_MODE=false
+else
+    INTERACTIVE_MODE=true
+fi
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -67,13 +83,27 @@ ask_yes_no() {
     local default=${2:-"n"}
     local response
     
+    if [ "$INTERACTIVE_MODE" = false ]; then
+        # In non-interactive mode, use defaults
+        echo -e "${CYAN}$question [Auto: $default]${NC}"
+        case $default in
+            [Yy]|[Yy][Ee][Ss]) return 0 ;;
+            *) return 1 ;;
+        esac
+    fi
+    
     if [ "$default" = "y" ]; then
         echo -e "${CYAN}$question [Y/n]:${NC} "
     else
         echo -e "${CYAN}$question [y/N]:${NC} "
     fi
     
-    read -r response
+    read -r response </dev/tty 2>/dev/null || {
+        # Fallback if /dev/tty is not available
+        echo -e "${YELLOW}⚠️  Cannot read input, using default: $default${NC}"
+        response=$default
+    }
+    
     response=${response:-$default}
     
     case $response in
@@ -85,9 +115,19 @@ ask_yes_no() {
 # Function to wait for user input before continuing
 wait_for_user() {
     local message=${1:-"Press Enter to continue to the next section..."}
+    
+    if [ "$INTERACTIVE_MODE" = false ]; then
+        echo -e "${PURPLE}📋 $message [Auto-continuing in 2 seconds...]${NC}"
+        sleep 2
+        return
+    fi
+    
     echo ""
     echo -e "${PURPLE}📋 $message${NC}"
-    read -r
+    read -r </dev/tty 2>/dev/null || {
+        echo -e "${YELLOW}⚠️  Cannot read input, auto-continuing...${NC}"
+        sleep 1
+    }
 }
 
 # Function to get user input
@@ -96,13 +136,23 @@ get_user_input() {
     local default=$2
     local response
     
+    if [ "$INTERACTIVE_MODE" = false ]; then
+        echo -e "${CYAN}$prompt [Auto: $default]${NC}"
+        echo "$default"
+        return
+    fi
+    
     if [ -n "$default" ]; then
         echo -e "${CYAN}$prompt [$default]:${NC} "
     else
         echo -e "${CYAN}$prompt:${NC} "
     fi
     
-    read -r response
+    read -r response </dev/tty 2>/dev/null || {
+        echo -e "${YELLOW}⚠️  Cannot read input, using default: $default${NC}"
+        response=$default
+    }
+    
     echo "${response:-$default}"
 }
 
@@ -154,8 +204,8 @@ if command_exists git; then
     if [ -z "$GIT_USER" ] || [ "$GIT_USER" = "Your Name" ] || [ "$GIT_USER" = "Ubuntu Dev Setup" ]; then
         print_status "MANUAL" "Git user name needs configuration"
         
-        if ask_yes_no "Would you like to configure Git now?"; then
-            USER_NAME=$(get_user_input "Enter your full name" "")
+        if ask_yes_no "Would you like to configure Git now?" "y"; then
+            USER_NAME=$(get_user_input "Enter your full name" "Developer")
             if [ -n "$USER_NAME" ]; then
                 git config --global user.name "$USER_NAME"
                 print_status "CONFIG" "Git user name set to: $USER_NAME"
@@ -170,8 +220,8 @@ if command_exists git; then
     if [ -z "$GIT_EMAIL" ] || [ "$GIT_EMAIL" = "your.email@example.com" ] || [ "$GIT_EMAIL" = "dev@ubuntu-setup.com" ]; then
         print_status "MANUAL" "Git email needs configuration"
         
-        if ask_yes_no "Would you like to configure Git email now?"; then
-            USER_EMAIL=$(get_user_input "Enter your email address" "")
+        if ask_yes_no "Would you like to configure Git email now?" "y"; then
+            USER_EMAIL=$(get_user_input "Enter your email address" "developer@example.com")
             if [ -n "$USER_EMAIL" ]; then
                 git config --global user.email "$USER_EMAIL"
                 print_status "CONFIG" "Git email set to: $USER_EMAIL"
@@ -249,8 +299,8 @@ if [ -d "$SSH_DIR" ]; then
     if [ "$SSH_KEYS_FOUND" = false ]; then
         print_status "MANUAL" "No SSH keys found"
         
-        if ask_yes_no "Would you like to generate a new SSH key?"; then
-            KEY_EMAIL=$(get_user_input "Enter email for SSH key" "$GIT_EMAIL")
+        if ask_yes_no "Would you like to generate a new SSH key?" "y"; then
+            KEY_EMAIL=$(get_user_input "Enter email for SSH key" "${GIT_EMAIL:-developer@example.com}")
             KEY_TYPE=$(get_user_input "Choose key type (ed25519/rsa)" "ed25519")
             
             case $KEY_TYPE in
@@ -292,7 +342,7 @@ if [ -d "$SSH_DIR" ]; then
             echo "  • GitLab: Preferences → SSH Keys → Add key"
             echo "  • Bitbucket: Personal settings → SSH keys → Add key"
             
-            if ask_yes_no "Press Enter when you've added the key to continue..."; then
+            if ask_yes_no "Press Enter when you've added the key to continue..." "y"; then
                 print_status "OK" "SSH key setup completed"
             fi
         else
@@ -780,6 +830,18 @@ fi
 
 print_status "STEP" "🎉 Post-setup configuration completed!"
 echo ""
+
+if [ "$INTERACTIVE_MODE" = false ]; then
+    echo "🤖 AUTOMATIC MODE COMPLETED"
+    echo "============================"
+    echo "The script ran in automatic mode with default settings."
+    echo "For full customization, download and run interactively:"
+    echo ""
+    echo "  wget https://raw.githubusercontent.com/LexiconAngelus93/ubuntu-dev-setup/main/post-setup-config.sh"
+    echo "  chmod +x post-setup-config.sh"
+    echo "  ./post-setup-config.sh"
+    echo ""
+fi
 echo "📝 FINAL RECOMMENDATIONS"
 echo "========================"
 echo "1. 🔄 Restart your terminal or logout/login for all changes to take effect"
