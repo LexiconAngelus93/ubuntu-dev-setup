@@ -82,6 +82,14 @@ ask_yes_no() {
     esac
 }
 
+# Function to wait for user input before continuing
+wait_for_user() {
+    local message=${1:-"Press Enter to continue to the next section..."}
+    echo ""
+    echo -e "${PURPLE}📋 $message${NC}"
+    read -r
+}
+
 # Function to get user input
 get_user_input() {
     local prompt=$1
@@ -132,6 +140,8 @@ else
         fi
     fi
 fi
+
+wait_for_user "Ready to proceed with Git configuration?"
 
 echo ""
 echo "👤 2. Git Configuration Setup..."
@@ -207,6 +217,8 @@ if command_exists git; then
 else
     print_status "ERROR" "Git not found. Please install Git first."
 fi
+
+wait_for_user "Git configuration completed. Ready to proceed with SSH key setup?"
 
 echo ""
 echo "🔐 3. SSH Key Setup..."
@@ -322,6 +334,8 @@ EOF
     fi
 fi
 
+wait_for_user "SSH configuration completed. Ready to proceed with shell optimization?"
+
 echo ""
 echo "🐚 4. Shell Configuration..."
 echo "----------------------------"
@@ -386,6 +400,8 @@ if command_exists zsh && [ ! -d "$HOME/.oh-my-zsh" ]; then
     fi
 fi
 
+wait_for_user "Shell configuration completed. Ready to proceed with Python environment optimization?"
+
 echo ""
 echo "🐍 5. Python Environment Optimization..."
 echo "----------------------------------------"
@@ -447,6 +463,8 @@ else
     print_status "ERROR" "Python3 not found"
 fi
 
+wait_for_user "Python environment optimization completed. Ready to proceed with Node.js environment optimization?"
+
 echo ""
 echo "🌐 6. Node.js Environment Optimization..."
 echo "-----------------------------------------"
@@ -505,6 +523,8 @@ else
     print_status "WARN" "Node.js or npm not found"
 fi
 
+wait_for_user "Node.js environment optimization completed. Ready to proceed with database configuration?"
+
 echo ""
 echo "🗄️ 7. Database Configuration..."
 echo "-------------------------------"
@@ -558,6 +578,8 @@ if command_exists mysql; then
     fi
 fi
 
+wait_for_user "Database configuration completed. Ready to proceed with development tools configuration?"
+
 echo ""
 echo "🔧 8. Development Tools Configuration..."
 echo "---------------------------------------"
@@ -601,6 +623,8 @@ if ask_yes_no "Would you like to create a development workspace structure?"; the
     mkdir -p "$HOME/Development/Playground"
     print_status "CONFIG" "Created development workspace structure"
 fi
+
+wait_for_user "Development tools configuration completed. Ready to proceed with system optimizations?"
 
 echo ""
 echo "⚙️ 9. System Optimizations..."
@@ -681,6 +705,8 @@ EOF
     print_status "CONFIG" "Added development aliases"
 fi
 
+wait_for_user "System optimizations completed. Ready to proceed with final steps?"
+
 echo ""
 echo "🔄 10. Final Steps and Recommendations..."
 echo "----------------------------------------"
@@ -733,6 +759,8 @@ $(command_exists code && echo "- VS Code: $(code --version | head -n1)")
 EOF
     print_status "CONFIG" "Created development environment info file"
 fi
+
+wait_for_user "All configurations completed. Ready to view the final summary?"
 
 echo ""
 echo "📊 POST-SETUP CONFIGURATION SUMMARY"
